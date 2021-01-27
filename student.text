@@ -119,18 +119,22 @@ insert into point
 values (14, 4, 2, 8.7);
 insert into point
 values (15, 5, 3, 8.8);
+-- Thống kê số lượng HV các lớp
 select Classes.name, count(class_id) as amount
 from Classes
          join Students S on Classes.id = S.class_id
 group by (class_id);
+-- Thống kê số lượng học viên tại các tỉnh
 select Addrress.address, count(address_id) as amount
 from Addrress
          join Students S on Addrress.id = S.address_id
 group by (address_id);
+-- Tính điểm trung bình của các khóa học
 select C.name, avg(point) as averge
 from Point
          join Course C on C.id = Point.course_id
 group by (course_id);
+-- Đưa ra khóa học có điểm trung bình cao nhất tao bang moi
 create table avergePoint
 select C.name, avg(point) as averge
 from Point
@@ -138,3 +142,12 @@ from Point
 group by (course_id);
 select avergePoint.name, max(averge) as max
 from avergePoint;
+-- Đưa ra khóa học có điểm trung bình cao nhất khong tao bang moi
+select s.name, max(averge) from (select C.name, avg(point) as averge
+from Point
+    join Course C on C.id = Point.course_id
+group by (course_id)) s;
+
+
+
+
