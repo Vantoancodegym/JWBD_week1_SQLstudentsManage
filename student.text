@@ -1,0 +1,140 @@
+create database studentDTB;
+use studentDTB;
+create table Addrress
+(
+    id      int primary key,
+    address varchar(100)
+);
+create table Classes
+(
+    id          int primary key,
+    name        varchar(20),
+    language    varchar(20),
+    description varchar(255)
+);
+create table Students
+(
+    id         int primary key,
+    fullname   varchar(50),
+    address_id int,
+    phone      int unique,
+    class_id   int,
+    foreign key (address_id) references Addrress (id),
+    foreign key (class_id) references Classes (id)
+);
+create table Course
+(
+    id          int primary key,
+    name        varchar(100),
+    description varchar(255)
+);
+create table Point
+(
+    id         int primary key,
+    course_id  int,
+    student_id int,
+    point      double,
+    foreign key (course_id) references Course (id),
+    foreign key (student_id) references students (id)
+);
+insert into Addrress
+values (1, 'Ha Noi1');
+insert into Addrress
+values (2, 'Ha Nam');
+insert into Addrress
+values (3, 'Ha Tay');
+insert into Addrress
+values (4, 'Ha Giang');
+insert into Addrress
+values (5, 'Ha Bac');
+insert into Classes
+values (1, 'C01', 'English', 'Lop nhieu gai xinh');
+insert into Classes
+values (2, 'C02', 'Japanese', 'Lop nhieu gai xinh');
+insert into Classes
+values (3, 'C03', 'Vietnamese', 'Lop nhieu gai xinh');
+insert into Classes
+values (4, 'C04', 'Chinese', 'Lop nhieu gai xinh');
+insert into Classes
+values (5, 'C05', 'Dutch', 'Lop nhieu gai xinh');
+alter table Students
+    modify phone varchar(10) unique;
+insert into Students
+values (1, 'Nguyen Van A', 1, '0988111111', 1);
+insert into Students
+values (2, 'Nguyen Van B', 2, '0988111112', 2);
+insert into Students
+values (3, 'Nguyen Van C', 3, '0988111113', 3);
+insert into Students
+values (4, 'Nguyen Van D', 4, '0988111114', 4);
+insert into Students
+values (5, 'Nguyen Van E', 5, '0988111115', 5);
+insert into Students
+values (6, 'Nguyen Van F', 1, '0988111116', 1);
+insert into Students
+values (7, 'Nguyen Van G', 2, '0988111117', 2);
+insert into Students
+values (8, 'Nguyen Van H', 3, '0988111118', 3);
+insert into Students
+values (9, 'Nguyen Van I', 4, '0988111119', 4);
+insert into Students
+values (10, 'Nguyen Van K', 5, '0988111110', 5);
+insert into Course
+values (1, 'JAVA1', 'Hoc rat hay');
+insert into Course
+values (2, 'JAVA2', 'Hoc rat hay');
+insert into Course
+values (3, 'JAVA3', 'Hoc rat hay');
+insert into Course
+values (4, 'JAVA4', 'Hoc rat hay');
+insert into Course
+values (5, 'JAVA5', 'Hoc rat hay');
+insert into point
+values (1, 1, 1, 8.2);
+insert into point
+values (2, 2, 2, 8.4);
+insert into point
+values (3, 3, 3, 8.6);
+insert into point
+values (4, 4, 4, 8.9);
+insert into point
+values (5, 5, 5, 9.2);
+insert into point
+values (6, 1, 6, 9.0);
+insert into point
+values (7, 2, 7, 7.2);
+insert into point
+values (8, 3, 8, 6.2);
+insert into point
+values (9, 4, 9, 5.2);
+insert into point
+values (10, 5, 10, 7.2);
+insert into point
+values (11, 1, 5, 8.2);
+insert into point
+values (12, 2, 4, 9.2);
+insert into point
+values (13, 3, 1, 6.2);
+insert into point
+values (14, 4, 2, 8.7);
+insert into point
+values (15, 5, 3, 8.8);
+select Classes.name, count(class_id) as amount
+from Classes
+         join Students S on Classes.id = S.class_id
+group by (class_id);
+select Addrress.address, count(address_id) as amount
+from Addrress
+         join Students S on Addrress.id = S.address_id
+group by (address_id);
+select C.name, avg(point) as averge
+from Point
+         join Course C on C.id = Point.course_id
+group by (course_id);
+create table avergePoint
+select C.name, avg(point) as averge
+from Point
+         join Course C on C.id = Point.course_id
+group by (course_id);
+select avergePoint.name, max(averge) as max
+from avergePoint;
